@@ -1,6 +1,7 @@
 package com.fleet.demo.service;
 
-import com.fleet.demo.dto.GeoLocation;
+import com.fleet.demo.model.dto.GeoLocation;
+import com.fleet.demo.model.dto.VehicleLocation;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -10,16 +11,20 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class LocationProducerService {
 
-    public GeoLocation RandomLocation(){
-        double latitude = ThreadLocalRandom.current().nextDouble(-90.0, 90.0);
-        double longitude = ThreadLocalRandom.current().nextDouble(-180.0,180.0);
+    public GeoLocation RandomLocation(GeoLocation vehicleLocation){
+        double latitude =
+                vehicleLocation.getLatitude()+ ThreadLocalRandom.current().nextDouble(0,
+                0.0305 );
+        double longitude =
+                vehicleLocation.getLongitude() +ThreadLocalRandom.current().nextDouble(0,
+                        0.1005);
         latitude = roundToTwoDecimalPlaces(latitude);
         longitude = roundToTwoDecimalPlaces(longitude);
         return new GeoLocation(latitude,longitude);
     }
     private double roundToTwoDecimalPlaces(double value) {
         return BigDecimal.valueOf(value)
-                .setScale(2, RoundingMode.HALF_UP)
+                .setScale(4, RoundingMode.HALF_UP)
                 .doubleValue();
     }
 }
