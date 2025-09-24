@@ -1,6 +1,7 @@
 package com.fleet.demo.controller;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fleet.demo.model.dto.VehicleLocation;
 import com.fleet.demo.model.entity.Vehicle;
 import com.fleet.demo.model.enums.Status;
 import com.fleet.demo.service.VehicleService;
@@ -17,11 +18,21 @@ public class VehicleController {
 
     @Autowired
     VehicleService vehicleService;
-
-    @PutMapping("/{id}")
-    @Operation(summary = "Update an existing vehicle")
-    public Vehicle updateVehicle(@PathVariable String id, @RequestParam Status status) throws JsonMappingException {
-        return vehicleService.updateVehicle(id,status);
-
+//
+//    @PutMapping("/{id}")
+//    @Operation(summary = "Update an existing vehicle")
+//    public Vehicle updateVehicle(@PathVariable String id, @RequestParam Status status) throws JsonMappingException {
+//        return vehicleService.updateVehicle(id,status);
+//    }
+    @PostMapping("/create")
+    public Vehicle createVehicle(@RequestBody Vehicle vehicle){
+        return  vehicleService.saveVehicle(vehicle);
     }
+
+    @PostMapping("/destination")
+    @Operation(summary = "Send destination location")
+    public String vehicleDestination(@RequestBody VehicleLocation vehicleLocation){
+        return vehicleService.updateDestination(vehicleLocation);
+    }
+
 }
